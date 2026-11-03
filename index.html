@@ -104,17 +104,24 @@
   .earn { background: var(--gray); }
   .earn-grid { display: grid; grid-template-columns: 280px 1fr; gap: 80px; margin-top: 56px; align-items: start; }
   .phone { width: 100%; max-width: 280px; aspect-ratio: 9 / 17.5; border-radius: 30px; background: var(--ink); padding: 9px; }
-  .screen { position: relative; height: 100%; border-radius: 22px; overflow: hidden; color: #fff; background: #222 url("assets/hero-taishi-full.jpg") 42% top / cover no-repeat; }
+  .screen { position: relative; height: 100%; border-radius: 22px; overflow: hidden; color: #fff; background: #1c1c1c; }
+  /* 「ここにあなたが映る」を示す、カメラの枠。特定の人の写真は置かない */
+  .screen::before { content: ""; position: absolute; inset: 14% 13% 46%; --c: rgba(255,255,255,.6);
+    background:
+      linear-gradient(var(--c), var(--c)) 0 0 / 28px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 0 / 2px 28px no-repeat,
+      linear-gradient(var(--c), var(--c)) 100% 0 / 28px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / 2px 28px no-repeat,
+      linear-gradient(var(--c), var(--c)) 0 100% / 28px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 100% / 2px 28px no-repeat,
+      linear-gradient(var(--c), var(--c)) 100% 100% / 28px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 100% / 2px 28px no-repeat; }
   .screen .top { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 12px 12px 0; font-size: 11px; }
   .screen .me { display: flex; align-items: center; gap: 7px; line-height: 1.3; }
   .screen .me i { width: 26px; height: 26px; border-radius: 50%; background: #fff; display: block; }
   .screen .me small { display: block; color: #eee; font-size: 10px; }
   .screen .lv { background: var(--red); font-family: var(--en); font-weight: 600; padding: 0 8px; border-radius: 3px; }
-  .gift-pop { position: absolute; left: 9px; top: 52%; display: flex; align-items: center; gap: 7px; background: var(--red); border-radius: 99px; padding: 4px 14px 4px 5px; font-size: 10px; line-height: 1.35; }
+  .gift-pop { position: absolute; left: 9px; top: 58%; display: flex; align-items: center; gap: 7px; background: var(--red); border-radius: 99px; padding: 4px 14px 4px 5px; font-size: 10px; line-height: 1.35; }
   .gift-pop .ic { font-size: 16px; }
   .gift-pop .x { font-family: var(--en); font-weight: 600; font-size: 16px; margin-left: 6px; }
   .comments { position: absolute; left: 9px; bottom: 50px; display: flex; flex-direction: column; gap: 5px; font-size: 10px; }
-  .comments span { background: rgba(0,0,0,.55); padding: 1px 9px; border-radius: 99px; width: fit-content; }
+  .comments span { background: rgba(255,255,255,.14); padding: 1px 9px; border-radius: 99px; width: fit-content; }
   .comments b { font-family: var(--en); font-weight: 500; color: #bbb; margin-right: 5px; }
   .hearts { position: absolute; right: 12px; bottom: 56px; color: var(--red); font-size: 15px; line-height: 1.1; text-align: right; }
   .hearts span { display: block; }
