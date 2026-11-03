@@ -14,294 +14,291 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Jost:wght@300;400&family=Zen+Kaku+Gothic+New:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #0b0b0b;
-    --text: #1a1a1a;
-    --muted: #8a8a8a;
-    --line: #d9d9d9;
-    --soft-line: #ececec;
-    --paper: #ffffff;
-    --gold: #9a7b4f;
-    --live: #fe2c55;
-    --serif: "Bodoni Moda", "Times New Roman", serif;
-    --sans: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
-    --latin: "Jost", "Helvetica Neue", Arial, sans-serif;
+    --ink: #111;
+    --text: #222;
+    --sub: #555;
+    --line: #ddd;
+    --gray: #f4f4f2;
+    --red: #d9123a;
+    --line-green: #06c755;
+    --jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+    --en: "Jost", "Futura", "Century Gothic", var(--jp);
     --wrap: 1120px;
+    --header: 60px;
+    --vh: 100vh;
+    /* ヒーロー写真の高さ。画面の高さいっぱい、ただし縦長の窓では横幅からはみ出さない */
+    --photo-h: min(max(calc(var(--vh) - var(--header)), 620px), 72vw);
   }
+  @supports (height: 100svh) { :root { --vh: 100svh; } }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body { background: var(--paper); color: var(--text); font-family: var(--sans); font-weight: 400;
-         font-size: 15px; line-height: 1.9; letter-spacing: .06em; -webkit-font-smoothing: antialiased; }
+  html { scroll-behavior: smooth; scroll-padding-top: var(--header); }
+  body { background: #fff; color: var(--text); font-family: var(--jp); font-size: 15px; line-height: 1.9; letter-spacing: .04em; }
   img { display: block; max-width: 100%; }
   a { color: inherit; }
+  ul, ol { list-style: none; }
+  section { padding: 110px 0; }
   .wrap { width: min(var(--wrap), calc(100% - 40px)); margin: 0 auto; }
 
-  /* 共通パーツ */
-  .label { font-family: var(--latin); font-size: 11px; letter-spacing: .32em; text-transform: uppercase; color: var(--muted); }
-  .headline { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 7vw, 84px); line-height: 1.02;
-              letter-spacing: -.01em; margin: 18px 0 18px; }
-  .headline em { font-style: italic; }
-  .lead { font-size: 15px; font-weight: 500; letter-spacing: .14em; }
-  .note { font-size: 11px; color: var(--muted); letter-spacing: .06em; }
-  .body-muted { color: var(--muted); font-weight: 300; font-size: 13px; line-height: 2; }
-  section { padding: 130px 0; }
-  .btn { display: inline-block; background: var(--ink); color: #fff; text-decoration: none; font-size: 14px;
-         letter-spacing: .2em; padding: 20px 46px; transition: opacity .2s, transform .2s; }
-  .btn:hover { opacity: .85; transform: translateY(-1px); }
-  .btn.light { background: #fff; color: var(--ink); }
-  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
-  .reveal.in { opacity: 1; transform: none; }
+  /* 見出しまわり */
+  .label { font-family: var(--en); font-weight: 500; font-size: 15px; letter-spacing: .02em; color: var(--red); }
+  .headline { font-family: var(--en); font-weight: 600; font-size: clamp(42px, 6.4vw, 80px); line-height: 1.08; letter-spacing: -.01em; color: var(--ink); margin: 6px 0 16px; }
+  .lead { font-size: clamp(17px, 2vw, 21px); font-weight: 700; line-height: 1.6; }
+  .note { font-size: 12px; color: var(--sub); }
+  .body-muted { color: var(--sub); }
+  .btn { display: inline-block; background: var(--line-green); color: #fff; text-decoration: none; font-size: 16px; font-weight: 700;
+         padding: 17px 52px; border-radius: 6px; transition: background .15s; }
+  .btn:hover { background: #05a848; }
+
+  /* ヘッダー */
+  .header { position: fixed; inset: 0 0 auto 0; z-index: 50; height: var(--header); display: flex; justify-content: space-between; align-items: center;
+            padding: 0 24px; background: #fff; border-bottom: 1px solid var(--line); }
+  .header a { text-decoration: none; font-family: var(--en); font-weight: 600; }
+  .header a:first-child { font-size: 20px; letter-spacing: .02em; color: var(--ink); }
+  .header a:last-child { font-size: 14px; color: #fff; background: var(--line-green); padding: 6px 20px; border-radius: 4px; }
+
+  /* ヒーロー：PCは左に文字・右に写真、スマホは写真の下に文字。写真は切らない */
+  .hero { position: relative; margin-top: var(--header); padding: 0; color: #fff; background: var(--ink); display: grid; grid-template-columns: 1fr auto; }
+  .hero-photo { grid-column: 2; grid-row: 1; height: var(--photo-h); aspect-ratio: 1045 / 1567; }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-inner { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 40px 40px 52px; }
+  .live-badge { position: absolute; top: 28px; left: 40px; background: var(--red); font-family: var(--en); font-weight: 600; font-size: 13px; padding: 2px 12px; border-radius: 3px; }
+  .hero .label { color: #fff; font-size: 16px; }
+  .hero h1 { font-family: var(--en); font-weight: 600; font-size: clamp(64px, 9.4vw, 160px); line-height: 1; letter-spacing: -.02em; margin: 4px 0 22px -.04em; }
+  .hero-sub { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: clamp(15px, 1.6vw, 19px); font-weight: 500; }
+  .hero-sub .tag { font-family: var(--en); font-weight: 600; font-size: 14px; color: var(--ink); background: #fff; padding: 0 10px; border-radius: 2px; }
+  .hero-talent { margin-top: 12px; font-size: 13px; color: #bbb; }
+  .hero-talent span { font-family: var(--en); font-weight: 500; }
+  /* 写真の左下（黒いニットの上）に置いて、胸のハートにかぶせない。写真の幅＝高さ×1045/1567 */
+  .chat { position: absolute; right: calc(var(--photo-h) * 1045 / 1567 * .6); bottom: 52px; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .bubble { font-size: 13px; background: rgba(0,0,0,.72); padding: 4px 14px; border-radius: 99px; opacity: 0; animation: pop .4s ease forwards; }
+  .bubble b { font-family: var(--en); font-weight: 500; color: #aaa; margin-right: 8px; }
+  .bubble.gift { background: var(--red); }
+  .bubble.gift b { color: #fff; }
+  .bubble:nth-child(1) { animation-delay: .6s; }
+  .bubble:nth-child(2) { animation-delay: 1.4s; }
+  .bubble:nth-child(3) { animation-delay: 2.2s; }
+  @keyframes pop { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1; transform: none; transition: none; }
-    .bubble { animation: none !important; opacity: 1 !important; }
+    .bubble { animation: none; opacity: 1; }
     html { scroll-behavior: auto; }
   }
 
-  /* ヘッダー */
-  .header { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 28px; color: #fff; mix-blend-mode: difference; pointer-events: none; }
-  .header a { pointer-events: auto; text-decoration: none; font-family: var(--latin); font-size: 11px; letter-spacing: .38em; }
-
-  /* ヒーロー */
-  /* PCは「左に文字・右に写真（切らずに全体）」、スマホは「写真の下に文字」 */
-  .hero { position: relative; min-height: 100svh; padding: 0; color: #fff; overflow: hidden; background: var(--ink);
-          display: grid; grid-template-columns: 1fr auto; }
-  .hero-photo { position: relative; grid-column: 2; grid-row: 1; height: 100svh; min-height: 620px; aspect-ratio: 1045 / 1567; }
-  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
-  .hero-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none;
-                       background: linear-gradient(90deg, var(--ink) 0%, rgba(11,11,11,0) 18%); }
-  .hero-inner { position: relative; z-index: 2; grid-column: 1; grid-row: 1; margin-right: -80px; display: flex; flex-direction: column;
-                justify-content: flex-end; padding: 90px 28px 56px; }
-  .live-badge { position: absolute; top: 70px; left: 28px; background: var(--live); color: #fff; font-family: var(--latin);
-                font-size: 10px; letter-spacing: .2em; padding: 3px 9px; border-radius: 3px; }
-  .live-badge::before { content: "●"; margin-right: 5px; animation: blink 1.4s infinite; }
-  @keyframes blink { 50% { opacity: .2; } }
-  .hero .label { color: rgba(255,255,255,.8); }
-  .hero h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(72px, 10.5vw, 180px); line-height: .95; letter-spacing: -.02em; margin: 10px 0 18px; }
-  .hero-sub { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; font-size: clamp(15px, 1.8vw, 20px); letter-spacing: .12em; }
-  .hero-sub .tag { font-family: var(--latin); font-size: 13px; letter-spacing: .26em; border: 1px solid rgba(255,255,255,.8); padding: 2px 10px; }
-  .hero-talent { margin-top: 16px; font-size: 11px; letter-spacing: .2em; color: rgba(255,255,255,.75); }
-  .hero-talent span { font-family: var(--latin); letter-spacing: .32em; }
-  /* 写真の左下（黒いニットの上）に置いて、胸のハートにかぶせない。写真の幅＝高さ×1045/1567 */
-  .chat { position: absolute; z-index: 3; right: calc(max(100svh, 620px) * 1045 / 1567 * .64); bottom: 56px; display: flex; flex-direction: column; gap: 9px; align-items: flex-end; }
-  .bubble { font-size: 12px; letter-spacing: .08em; background: rgba(30,30,30,.72); backdrop-filter: blur(6px); color: #fff;
-            padding: 6px 14px; border-radius: 99px; opacity: 0; animation: pop .6s ease forwards; }
-  .bubble b { font-family: var(--latin); font-weight: 400; color: rgba(255,255,255,.55); margin-right: 8px; font-size: 11px; }
-  .bubble.gift { background: var(--live); }
-  .bubble.gift b { color: rgba(255,255,255,.75); }
-  .bubble:nth-child(1) { animation-delay: .8s; }
-  .bubble:nth-child(2) { animation-delay: 1.8s; }
-  .bubble:nth-child(3) { animation-delay: 2.8s; }
-  @keyframes pop { from { opacity: 0; transform: translateY(10px) scale(.96); } to { opacity: 1; transform: none; } }
-
   /* ステートメント */
-  .statement { text-align: center; padding-bottom: 90px; }
-  .statement .intro { margin-top: 36px; font-size: 15px; line-height: 2.2; letter-spacing: .12em; }
-  .statement .catch { font-weight: 300; font-size: clamp(24px, 3.4vw, 34px); line-height: 1.9; letter-spacing: .24em; margin: 48px 0 38px; }
-  .statement .body-muted { max-width: 460px; margin: 0 auto 44px; }
-  .statement .note { margin-top: 26px; }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid #888; margin-top: 90px; text-align: left; }
-  .stat { padding: 26px 0 0; }
-  .stat .k { font-size: 12px; color: #555; letter-spacing: .1em; }
-  .stat .v { font-family: var(--serif); font-size: 40px; line-height: 1.3; }
-  .stat .v small { font-family: var(--sans); font-size: 12px; margin-left: 4px; }
+  .statement { padding-bottom: 0; }
+  .statement-grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 60px; margin-top: 18px; align-items: start; }
+  .catch { font-weight: 900; font-size: clamp(32px, 4.6vw, 56px); line-height: 1.32; letter-spacing: .01em; color: var(--ink); }
+  .intro { font-size: 17px; font-weight: 500; line-height: 1.9; }
+  .statement .body-muted { margin: 18px 0 30px; }
+  .statement .note { margin-top: 12px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 90px; background: var(--ink); color: #fff; }
+  .stat { padding: 30px 36px 26px; }
+  .stat + .stat { border-left: 1px solid #333; }
+  .stat .k { font-size: 13px; color: #ccc; }
+  .stat .v { font-family: var(--en); font-weight: 600; font-size: clamp(56px, 7vw, 88px); line-height: 1.15; }
+  .stat .v small { font-family: var(--jp); font-weight: 700; font-size: 18px; margin-left: 6px; letter-spacing: 0; }
 
   /* EARN */
-  .earn-grid { display: grid; grid-template-columns: 300px 1fr; gap: 80px; margin-top: 70px; align-items: start; }
-  .phone { position: relative; width: 100%; max-width: 300px; aspect-ratio: 9 / 17.5; border-radius: 36px; background: #0c0c0c;
-           padding: 12px; box-shadow: 0 24px 50px rgba(0,0,0,.25); }
-  .screen { position: relative; height: 100%; border-radius: 26px; overflow: hidden;
-            background: radial-gradient(ellipse at 50% 35%, #3a3a3a 0%, #1a1a1a 45%, #0e0e0e 100%); color: #fff; }
-  .screen .top { display: flex; justify-content: space-between; align-items: center; padding: 14px 14px 0; font-size: 10px; }
-  .screen .me { display: flex; align-items: center; gap: 8px; line-height: 1.3; }
-  .screen .me i { width: 28px; height: 28px; border-radius: 50%; background: #777; display: block; }
-  .screen .me small { display: block; color: #aaa; font-size: 9px; }
-  .screen .lv { background: var(--live); font-family: var(--latin); letter-spacing: .15em; padding: 2px 8px; border-radius: 3px; font-size: 9px; }
-  .screen .avatar { position: absolute; left: 50%; top: 30%; transform: translateX(-50%); width: 46px; height: 46px; border-radius: 50%; background: #5a5a5a; }
-  .screen .avatar::after { content: ""; position: absolute; left: 50%; top: 54px; transform: translateX(-50%); width: 92px; height: 60px;
-                           border-radius: 46px 46px 0 0; background: #4a4a4a; }
-  .gift-pop { position: absolute; left: 10px; top: 49%; display: flex; align-items: center; gap: 8px; background: var(--live);
-              border-radius: 99px; padding: 5px 16px 5px 6px; font-size: 9px; line-height: 1.3; animation: slide 3.6s ease-in-out infinite; }
-  .gift-pop .ic { width: 24px; height: 24px; border-radius: 50%; background: #fff2; display: grid; place-items: center; font-size: 13px; }
-  .gift-pop .x { font-family: var(--serif); font-size: 16px; margin-left: 10px; }
-  @keyframes slide { 0%, 100% { transform: translateX(-6px); opacity: .9; } 50% { transform: none; opacity: 1; } }
-  .comments { position: absolute; left: 10px; bottom: 54px; display: flex; flex-direction: column; gap: 6px; font-size: 9px; }
-  .comments span { background: rgba(0,0,0,.45); padding: 3px 10px; border-radius: 99px; width: fit-content; }
-  .comments b { font-family: var(--latin); font-weight: 400; color: #aaa; margin-right: 6px; }
-  .hearts { position: absolute; right: 16px; bottom: 60px; color: var(--live); font-size: 14px; }
-  .hearts span { position: absolute; right: 0; bottom: 0; animation: float 3s ease-in infinite; opacity: 0; }
-  .hearts span:nth-child(2) { animation-delay: 1s; right: 8px; }
-  .hearts span:nth-child(3) { animation-delay: 2s; right: -4px; }
-  @keyframes float { 0% { transform: translateY(0); opacity: 0; } 15% { opacity: 1; } 100% { transform: translateY(-140px); opacity: 0; } }
-  .input { position: absolute; left: 10px; right: 10px; bottom: 12px; display: flex; gap: 8px; align-items: center; }
-  .input span { flex: 1; background: #ffffff1a; border-radius: 99px; font-size: 9px; color: #999; padding: 7px 12px; }
-  .input i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; background: #ffffff1a; display: grid; place-items: center; font-size: 13px; }
-  .phone-cap { text-align: center; margin-top: 14px; }
-  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 64px 48px; }
-  .feature { border-top: 1px solid #666; padding-top: 22px; }
-  .feature .big { font-family: var(--serif); color: var(--gold); font-size: 46px; line-height: 1.2; }
-  .feature .big small { font-family: var(--sans); font-size: 12px; margin-left: 4px; }
-  .feature h3, .col h3 { font-size: 14px; font-weight: 500; letter-spacing: .14em; margin: 14px 0 12px; }
-  .earn .note { margin-top: 50px; }
+  .earn { background: var(--gray); }
+  .earn-grid { display: grid; grid-template-columns: 280px 1fr; gap: 80px; margin-top: 56px; align-items: start; }
+  .phone { width: 100%; max-width: 280px; aspect-ratio: 9 / 17.5; border-radius: 30px; background: var(--ink); padding: 9px; }
+  .screen { position: relative; height: 100%; border-radius: 22px; overflow: hidden; color: #fff; background: #222 url("assets/hero-taishi-full.jpg") 42% top / cover no-repeat; }
+  .screen .top { position: relative; display: flex; justify-content: space-between; align-items: center; padding: 12px 12px 0; font-size: 11px; }
+  .screen .me { display: flex; align-items: center; gap: 7px; line-height: 1.3; }
+  .screen .me i { width: 26px; height: 26px; border-radius: 50%; background: #fff; display: block; }
+  .screen .me small { display: block; color: #eee; font-size: 10px; }
+  .screen .lv { background: var(--red); font-family: var(--en); font-weight: 600; padding: 0 8px; border-radius: 3px; }
+  .gift-pop { position: absolute; left: 9px; top: 52%; display: flex; align-items: center; gap: 7px; background: var(--red); border-radius: 99px; padding: 4px 14px 4px 5px; font-size: 10px; line-height: 1.35; }
+  .gift-pop .ic { font-size: 16px; }
+  .gift-pop .x { font-family: var(--en); font-weight: 600; font-size: 16px; margin-left: 6px; }
+  .comments { position: absolute; left: 9px; bottom: 50px; display: flex; flex-direction: column; gap: 5px; font-size: 10px; }
+  .comments span { background: rgba(0,0,0,.55); padding: 1px 9px; border-radius: 99px; width: fit-content; }
+  .comments b { font-family: var(--en); font-weight: 500; color: #bbb; margin-right: 5px; }
+  .hearts { position: absolute; right: 12px; bottom: 56px; color: var(--red); font-size: 15px; line-height: 1.1; text-align: right; }
+  .hearts span { display: block; }
+  .hearts span:nth-child(2) { margin-right: 8px; }
+  .input { position: absolute; left: 9px; right: 9px; bottom: 11px; display: flex; gap: 7px; align-items: center; }
+  .input span { flex: 1; background: rgba(255,255,255,.2); border-radius: 99px; font-size: 10px; color: #eee; padding: 3px 11px; }
+  .input i { font-style: normal; font-size: 18px; line-height: 1; }
+  .phone-cap { margin-top: 12px; text-align: center; }
+  .feature { display: grid; grid-template-columns: 160px 1fr; gap: 24px; padding: 28px 0; border-top: 1px solid #ccc; align-items: start; }
+  .feature:first-child { border-top: 0; padding-top: 0; }
+  .feature .big { font-family: var(--en); font-weight: 600; color: var(--red); font-size: 44px; line-height: 1.1; }
+  .feature .big small { font-family: var(--jp); font-weight: 700; font-size: 18px; margin-left: 2px; }
+  .feature h3, .col h3 { font-size: 17px; font-weight: 700; line-height: 1.6; margin-bottom: 6px; color: var(--ink); }
+  .earn .note { margin-top: 28px; }
 
   /* HOW WE EARN */
-  .how { padding-top: 40px; }
-  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 18px; margin-top: 60px; }
-  .node { border: 1px solid #222; padding: 18px 20px; }
-  .node strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 24px; color: var(--text); letter-spacing: .02em; }
-  .node span { font-size: 11px; color: var(--muted); }
-  .node.dark { background: var(--ink); border-color: var(--ink); }
+  .flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1.15fr; align-items: center; gap: 14px; margin-top: 50px; }
+  .node { border: 2px solid var(--ink); padding: 14px 18px; }
+  .node strong { display: block; font-family: var(--en); font-weight: 600; font-size: 24px; line-height: 1.3; color: var(--ink); }
+  .node span { font-size: 13px; line-height: 1.6; display: block; }
+  .node.dark { background: var(--ink); color: #fff; }
   .node.dark strong { color: #fff; }
-  .node.dark span { color: #aaa; }
-  .arrow { text-align: center; font-size: 22px; line-height: 1; }
-  .arrow small { display: block; font-size: 9px; color: var(--muted); margin-top: 4px; letter-spacing: .1em; }
-  .split { display: flex; flex-direction: column; gap: 10px; }
-  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 64px; }
-  .col { border-top: 1px solid #666; padding-top: 8px; }
+  .arrow { text-align: center; font-size: 24px; line-height: 1; font-family: var(--en); }
+  .arrow small { display: block; font-family: var(--jp); font-size: 11px; margin-top: 3px; }
+  .split { display: flex; flex-direction: column; gap: 8px; }
+  .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px; margin-top: 52px; }
 
-  /* CONCERNS */
-  .concerns-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-  .concerns-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-  .worries { list-style: none; margin: 34px 0 30px; border-top: 1px solid var(--soft-line); }
-  .worries li { border-bottom: 1px solid var(--soft-line); padding: 15px 0; font-size: 13px; color: var(--muted); font-weight: 300; }
-  .concerns p { font-size: 13px; line-height: 2.1; }
+  /* CONCERNS：黒地で、不安の一言ずつを大きく読ませる */
+  .concerns { background: var(--ink); color: #fff; }
+  .concerns .headline { color: #fff; }
+  .concerns .label, .talent .label { color: #ff6b85; }
+  .concerns-grid { display: grid; grid-template-columns: 1fr 1.25fr; gap: 60px; align-items: start; }
+  .concerns .lead { margin-top: 4px; }
+  .worries li { border-top: 1px solid #444; padding: 18px 0; font-size: clamp(17px, 2vw, 21px); font-weight: 500; line-height: 1.6; }
+  .worries li:last-child { border-bottom: 1px solid #444; }
+  .concerns-note { margin-top: 26px; color: #ddd; }
 
   /* LIFESTYLE */
-  .styles { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 70px; }
-  .style:nth-child(2) { margin-top: 120px; }
-  .style img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
-  .style .label { margin-top: 26px; font-size: 10px; }
-  .style h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 14px 0 18px; }
-  .style h3 small { font-family: var(--sans); font-size: 12px; color: #555; margin-left: 10px; letter-spacing: .1em; }
-  .style dl { display: grid; grid-template-columns: 56px 1fr; row-gap: 6px; font-size: 13px; }
-  .style dt { font-family: var(--latin); color: var(--muted); }
-  .lifestyle .note { margin-top: 60px; }
+  .styles { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 50px; }
+  .style { background: var(--gray); padding: 34px 36px 30px; }
+  .style .label { font-size: 14px; }
+  .style h3 { font-family: var(--en); font-weight: 600; font-size: 38px; line-height: 1.2; color: var(--ink); margin-bottom: 20px; }
+  .style h3 small { display: block; font-family: var(--jp); font-weight: 500; font-size: 14px; line-height: 1.7; color: var(--sub); letter-spacing: .04em; }
+  .style dl { display: grid; grid-template-columns: 76px 1fr; row-gap: 12px; align-items: baseline; }
+  .style dt { font-family: var(--en); font-weight: 600; font-size: 21px; }
+  .style dd { font-size: 15px; }
+  .style dt:nth-last-child(2), .style dd:last-child { color: var(--red); font-weight: 700; }
+  .lifestyle .note { margin-top: 22px; }
 
   /* SUPPORT */
-  .support-list { list-style: none; margin-top: 70px; border-top: 1px solid #666; }
-  .support-list li { display: grid; grid-template-columns: 110px 1fr 1.4fr; gap: 20px; padding: 30px 0; border-bottom: 1px solid var(--soft-line); align-items: baseline; }
-  .support-list .num { font-family: var(--serif); font-style: italic; font-size: 22px; color: #555; }
-  .support-list h3 { font-size: 14px; font-weight: 500; letter-spacing: .14em; }
+  .support { padding-top: 0; }
+  .support-list { margin-top: 44px; border-top: 2px solid var(--ink); }
+  .support-list li { display: grid; grid-template-columns: 70px 260px 1fr; gap: 16px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .support-list .num { font-family: var(--en); font-weight: 600; font-size: 22px; color: var(--red); }
+  .support-list h3 { font-size: 18px; font-weight: 700; color: var(--ink); }
 
-  /* TALENT（黒背景） */
+  /* TALENT */
   .dark { background: var(--ink); color: #fff; }
-  .dark .label { color: #8a8a8a; }
-  .talent-card { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; margin-top: 70px; }
-  .talent-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
-  .talent-name { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, 6vw, 76px); line-height: 1.02; margin: 18px 0 22px; }
-  .talent-meta { font-size: 12px; color: #9a9a9a; padding-bottom: 20px; border-bottom: 1px solid #333; }
-  .talent-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 18px; }
-  .talent-facts .k { font-size: 10px; color: #8a8a8a; }
-  .talent-facts .v { font-family: var(--serif); font-size: 26px; }
-  .talent-facts .v.jp { font-family: var(--sans); font-size: 13px; line-height: 1.8; }
-  .talent-card.rev { margin-top: 140px; }
-  .talent-card.rev .photo { order: 2; }
+  .dark .headline { color: #fff; }
+  .talents { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 50px; align-items: start; }
+  .talent-card img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: top; }
+  .talent-card .label { margin-top: 20px; }
+  .talent-name { font-family: var(--en); font-weight: 600; font-size: clamp(36px, 4.4vw, 54px); line-height: 1.1; margin-bottom: 10px; }
+  .talent-meta { font-size: 13px; color: #ccc; padding-bottom: 14px; border-bottom: 1px solid #444; }
+  .talent-facts { display: flex; gap: 40px; margin-top: 14px; }
+  .talent-facts .k { font-size: 12px; color: #aaa; }
+  .talent-facts .v { font-family: var(--en); font-weight: 600; font-size: 28px; line-height: 1.3; }
+  .talent-facts .v.jp { font-family: var(--jp); font-weight: 500; font-size: 14px; line-height: 1.7; margin-top: 4px; }
 
   /* CHEKI */
-  .cheki-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-  .cheki-grid .body-muted { margin-top: 26px; max-width: 420px; }
-  .polaroids { position: relative; height: 560px; }
-  .polaroid { position: absolute; background: #fff; padding: 14px 14px 46px; box-shadow: 0 18px 40px rgba(0,0,0,.18); width: 58%; }
-  .polaroid img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
-  .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 14px; text-align: center; font-family: var(--serif); font-style: italic; font-size: 14px; }
-  .polaroid.a { left: 4%; top: 0; transform: rotate(-4deg); z-index: 2; }
-  .polaroid.b { right: 2%; top: 150px; transform: rotate(5deg); }
+  .cheki-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .cheki-grid .body-muted { margin-top: 18px; max-width: 460px; }
+  .polaroids { position: relative; height: 440px; }
+  .polaroid { position: absolute; width: 52%; background: #fff; border: 1px solid var(--line); padding: 10px 10px 38px; box-shadow: 0 4px 14px rgba(0,0,0,.14); }
+  .polaroid img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; object-position: top; }
+  .polaroid .blank { aspect-ratio: 3 / 4; background: var(--ink); }
+  .polaroid figcaption { position: absolute; left: 0; right: 0; bottom: 8px; text-align: center; font-family: var(--en); font-weight: 500; font-size: 15px; }
+  .polaroid.a { left: 2%; top: 0; transform: rotate(-3deg); z-index: 2; }
+  .polaroid.b { right: 3%; top: 72px; transform: rotate(4deg); }
 
   /* BRAND WORKS */
-  .brand-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; margin-top: 70px; }
-  .brand-cols .col { padding-top: 20px; }
-  .brand-cols .top { display: flex; justify-content: space-between; align-items: baseline; }
-  .brand-cols .top strong { font-family: var(--serif); font-weight: 400; font-size: 38px; line-height: 1.2; }
-  .brand-cols .top span { font-size: 10px; color: var(--muted); background: #f2f2f2; padding: 1px 10px; }
-  .brand .note { margin-top: 56px; }
+  .brand { background: var(--gray); }
+  .brand-list { margin-top: 44px; }
+  .brand-row { display: grid; grid-template-columns: 300px 1fr; gap: 30px; padding: 26px 0; border-top: 1px solid #ccc; align-items: start; }
+  .brand-row strong { font-family: var(--en); font-weight: 600; font-size: 40px; line-height: 1.15; color: var(--ink); display: block; }
+  .brand-row .tag { font-size: 12px; font-weight: 500; color: var(--sub); }
+  .brand-row h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .brand .note { margin-top: 10px; }
 
-  /* FEE */
-  .fees { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid #666; border-bottom: 1px solid var(--soft-line); margin-top: 70px; }
-  .fee { text-align: center; padding: 30px 10px; }
-  .fee + .fee { border-left: 1px solid var(--soft-line); }
-  .fee .k { font-size: 11px; color: var(--muted); }
-  .fee .v { font-family: var(--serif); font-size: 44px; line-height: 1.3; }
-  .fee .v small { font-family: var(--sans); font-size: 12px; margin-left: 3px; }
-  .fee-note { margin-top: 40px; }
+  /* FEE：ここだけ赤の面にして、0円を一番強く見せる */
+  .fee-sec { background: var(--red); color: #fff; }
+  .fee-sec .label, .fee-sec .headline { color: #fff; }
+  .fees { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 40px; border-top: 2px solid #fff; }
+  .fee { padding: 20px 0 6px; }
+  .fee + .fee { border-left: 1px solid rgba(255,255,255,.5); padding-left: 24px; }
+  .fee .k { font-size: 14px; font-weight: 500; }
+  .fee .v { font-family: var(--en); font-weight: 600; font-size: clamp(64px, 8vw, 104px); line-height: 1.1; }
+  .fee .v small { font-family: var(--jp); font-weight: 700; font-size: 20px; margin-left: 4px; }
+  .fee-note { margin-top: 28px; max-width: 760px; font-size: 14px; }
 
   /* FLOW */
-  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-top: 64px; counter-reset: s; }
-  .step .n { font-family: var(--serif); font-style: italic; font-size: 38px; line-height: 1.2; }
-  .step h3 { font-size: 14px; font-weight: 500; letter-spacing: .14em; margin: 10px 0 12px; }
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 50px; border-top: 2px solid var(--ink); }
+  .step { padding: 20px 26px 0 0; }
+  .step + .step { padding-left: 22px; border-left: 1px solid var(--line); }
+  .step .n { font-family: var(--en); font-weight: 600; font-size: 44px; line-height: 1.1; color: var(--red); }
+  .step h3 { font-size: 17px; font-weight: 700; color: var(--ink); margin: 8px 0 6px; }
 
   /* PROMISE */
-  .promise { padding-top: 40px; }
+  .promise { padding-top: 0; }
+  .promise .cols { margin-top: 36px; gap: 20px; }
+  .promise .col { background: var(--gray); padding: 26px 26px 22px; }
 
   /* FAQ */
-  .faq { padding-top: 40px; }
-  .faq-list { margin-top: 60px; border-top: 1px solid #666; }
-  .faq-list details { border-bottom: 1px solid var(--soft-line); }
-  .faq-list summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px;
-                      padding: 24px 0; font-size: 14px; letter-spacing: .1em; }
+  .faq { padding-top: 0; }
+  .faq-list { margin-top: 36px; border-top: 2px solid var(--ink); }
+  .faq-list details { border-bottom: 1px solid var(--line); }
+  .faq-list summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px 0; font-size: 16px; font-weight: 700; }
   .faq-list summary::-webkit-details-marker { display: none; }
-  .faq-list summary::after { content: "+"; font-family: var(--latin); font-weight: 300; font-size: 22px; line-height: 1; transition: transform .3s; }
-  .faq-list details[open] summary::after { transform: rotate(45deg); }
-  .faq-list .a { padding: 0 0 26px; }
+  .faq-list summary::after { content: "+"; font-family: var(--en); font-weight: 500; font-size: 26px; line-height: 1; }
+  .faq-list details[open] summary::after { content: "−"; }
+  .faq-list .a { padding: 0 40px 24px 0; }
 
   /* ENTRY */
-  .entry { text-align: center; padding: 150px 0 140px; }
-  .entry .headline { font-size: clamp(48px, 7vw, 92px); }
-  .entry .body-muted { color: #9a9a9a; max-width: 480px; margin: 30px auto 0; }
-  .keywords { display: inline-block; text-align: left; border: 1px solid #444; padding: 22px 28px; margin: 40px auto; font-size: 12px; color: #9a9a9a; line-height: 2.1; max-width: 420px; }
-  .keywords b { color: #fff; font-weight: 500; margin-right: 12px; }
-  .entry .note { margin-top: 30px; color: #777; }
-  .entry .note a { color: #aaa; }
+  .entry { text-align: center; padding: 110px 0; }
+  .entry .label { color: #fff; }
+  .entry .body-muted { color: #ddd; max-width: 560px; margin: 18px auto 0; }
+  .keywords { display: inline-block; text-align: left; background: #222; padding: 18px 26px; margin: 30px auto; font-size: 14px; line-height: 2; color: #ddd; max-width: 520px; }
+  .keywords b { color: #fff; font-weight: 700; margin-right: 10px; }
+  .entry .note { margin-top: 18px; color: #bbb; }
 
-  footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; padding: 40px 28px; font-size: 10px; color: var(--muted); }
-  footer .logo { font-family: var(--serif); font-size: 22px; color: var(--text); letter-spacing: 0; }
+  footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 24px; padding: 26px 24px; font-size: 12px; color: var(--sub); }
+  footer .logo { font-family: var(--en); font-weight: 600; font-size: 22px; color: var(--ink); }
 
   /* スマホ下の固定ボタン */
   .sticky-cta { display: none; }
 
+  /* 写真の下に文字を置く形。タブレットや横向きのスマホでも、写真全体が画面に収まる大きさにする */
+  @media (max-width: 960px) {
+    .hero { display: flex; flex-direction: column; }
+    .hero-photo { order: 0; align-self: center; height: auto;
+                  width: min(100%, 560px, max(300px, calc((var(--vh) - var(--header)) * 1045 / 1567))); }
+    .hero-inner { order: 1; padding: 26px 20px 0; }
+    .live-badge { top: 14px; left: 14px; }
+    .chat { order: 2; position: static; padding: 18px 20px 34px; align-items: flex-start; }
+  }
   @media (max-width: 860px) {
-    section { padding: 96px 0; }
-    .hero { display: flex; flex-direction: column; min-height: 0; }
-    .hero-photo { order: 0; width: 100%; height: auto; min-height: 0; }
-    .hero-photo::after { background: linear-gradient(0deg, var(--ink) 0%, rgba(11,11,11,0) 22%); }
-    .hero-inner { order: 1; margin: -64px 0 0; padding: 0 20px; }
-    .chat { order: 2; position: static; padding: 26px 20px 56px; align-items: flex-start; }
-    .earn-grid, .concerns-grid, .talent-card, .cheki-grid { grid-template-columns: 1fr; gap: 48px; }
+    section { padding: 76px 0; }
+    .statement { padding-bottom: 0; }
+    .support, .promise, .faq { padding-top: 0; }
+    .statement-grid, .concerns-grid, .cheki-grid { grid-template-columns: 1fr; gap: 28px; }
+    .earn-grid { grid-template-columns: 1fr; gap: 36px; }
     .phone { margin: 0 auto; }
     .flow { grid-template-columns: 1fr; }
-    .arrow { transform: rotate(90deg); }
-    .arrow small { display: none; }
-    .cols, .brand-cols { grid-template-columns: 1fr; gap: 40px; }
+    .arrow span { display: inline-block; transform: rotate(90deg); }
+    .arrow small { display: inline; margin-left: 8px; }
+    .cols { grid-template-columns: 1fr; gap: 26px; }
     .steps { grid-template-columns: 1fr 1fr; }
+    .step, .step + .step { padding: 18px 16px 18px 0; border-left: 0; }
+    .step:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--line); }
     .fees { grid-template-columns: 1fr 1fr; }
-    .fee:nth-child(3) { border-left: none; }
-    .fee:nth-child(n+3) { border-top: 1px solid var(--soft-line); }
-    .support-list li { grid-template-columns: 50px 1fr; }
+    .fee, .fee + .fee { padding: 16px 0 6px; border-left: 0; }
+    .fee:nth-child(even) { padding-left: 18px; border-left: 1px solid rgba(255,255,255,.5); }
+    .support-list li { grid-template-columns: 44px 1fr; }
     .support-list li .body-muted { grid-column: 2; }
-    .talent-card.rev { margin-top: 90px; }
-    .talent-card.rev .photo { order: 0; }
-    .polaroids { height: 480px; }
-    .sticky-cta { display: block; position: fixed; left: 16px; right: 16px; bottom: 14px; z-index: 60; text-align: center;
-                  background: var(--ink); color: #fff; text-decoration: none; font-size: 14px; letter-spacing: .18em; padding: 16px;
-                  box-shadow: 0 8px 24px rgba(0,0,0,.25); transition: opacity .3s, transform .3s; }
-    .sticky-cta.hide { opacity: 0; transform: translateY(20px); pointer-events: none; }
-    footer { padding-bottom: 96px; }
+    .brand-row { grid-template-columns: 1fr; gap: 10px; }
+    .polaroids { height: 400px; max-width: 460px; }
+    .sticky-cta { display: block; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 60; text-align: center; background: var(--line-green); color: #fff;
+                  text-decoration: none; font-size: 16px; font-weight: 700; padding: 13px; border-radius: 6px; transition: opacity .2s; }
+    .sticky-cta.hide { opacity: 0; pointer-events: none; }
+    footer { padding-bottom: 84px; }
   }
   @media (max-width: 560px) {
-    body { font-size: 14px; }
-    .statement .intro { font-size: 13.5px; letter-spacing: .06em; }
-    .live-badge { left: 20px; }
-    .stats { grid-template-columns: 1fr; }
-    .stat { padding: 20px 0; border-bottom: 1px solid var(--soft-line); }
-    .features { grid-template-columns: 1fr; gap: 44px; }
-    .styles { grid-template-columns: 1fr; gap: 60px; }
-    .style:nth-child(2) { margin-top: 0; }
-    .steps { grid-template-columns: 1fr; gap: 34px; }
-    .statement .catch { letter-spacing: .14em; }
-    .polaroids { height: 420px; }
-    .polaroid { width: 62%; }
-    .polaroid.b { top: 120px; }
+    .intro { font-size: 15px; }
+    .stats { grid-template-columns: 1fr; margin-left: -20px; margin-right: -20px; }
+    .stat { padding: 20px 20px 16px; }
+    .stat + .stat { border-left: 0; border-top: 1px solid #333; }
+    .feature { grid-template-columns: 1fr; gap: 6px; }
+    .styles, .talents { grid-template-columns: 1fr; }
+    .style { padding: 26px 22px 22px; }
+    .steps { grid-template-columns: 1fr; }
+    .step, .step + .step, .step:nth-child(even) { padding: 16px 0; border-left: 0; border-bottom: 1px solid var(--line); }
+    .polaroids { height: 330px; }
+    .faq-list .a { padding-right: 0; }
+    .btn { padding: 15px 44px; }
   }
 </style>
 </head>
@@ -334,13 +331,17 @@
   <!-- STATEMENT -->
   <section class="statement">
     <div class="wrap">
-      <p class="label reveal">Statement</p>
-      <p class="intro reveal">沼って。は、TikTok LIVEで配信する<br>ライバーのマネジメント事務所です。<br>所属ライバーには、企業のPR案件もご紹介しています。</p>
-      <p class="catch reveal">あなたに沼る人が、<br>あなたの収入になる。</p>
-      <p class="body-muted reveal">TikTok LIVEで届いたギフトの報酬は、TikTokからあなたに直接支払われます。事務所は1円も差し引きません。未経験から「稼げるライバー」になるまで、専属マネージャーがひとりずつ伴走します。</p>
-      <a class="btn reveal" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a>
-      <p class="note reveal">相談は15〜30分　／　18歳以上の方が対象です</p>
-      <div class="stats reveal">
+      <p class="label">Statement</p>
+      <div class="statement-grid">
+        <p class="catch">あなたに沼る人が、<br>あなたの収入になる。</p>
+        <div>
+          <p class="intro">沼って。は、TikTok LIVEで配信する<br>ライバーのマネジメント事務所です。<br>所属ライバーには、企業のPR案件もご紹介しています。</p>
+          <p class="body-muted">TikTok LIVEで届いたギフトの報酬は、TikTokからあなたに直接支払われます。事務所は1円も差し引きません。未経験から「稼げるライバー」になるまで、専属マネージャーがひとりずつ伴走します。</p>
+          <a class="btn" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a>
+          <p class="note">相談は15〜30分　／　18歳以上の方が対象です</p>
+        </div>
+      </div>
+      <div class="stats">
         <div class="stat"><p class="k">報酬からの事務所の取り分</p><p class="v">0<small>%</small></p></div>
         <div class="stat"><p class="k">所属にかかる費用</p><p class="v">0<small>円</small></p></div>
         <div class="stat"><p class="k">必要なもの</p><p class="v">Phone<small>1台</small></p></div>
@@ -351,18 +352,17 @@
   <!-- EARN -->
   <section class="earn">
     <div class="wrap">
-      <p class="label reveal">Earn</p>
-      <h2 class="headline reveal">Gifts,<br><em>all yours.</em></h2>
-      <p class="lead reveal">稼ぐためのしくみが、そろっています。</p>
+      <p class="label">Earn</p>
+      <h2 class="headline">Gifts, all yours.</h2>
+      <p class="lead">稼ぐためのしくみが、そろっています。</p>
       <div class="earn-grid">
-        <div class="reveal">
+        <div>
           <div class="phone" aria-hidden="true">
             <div class="screen">
               <div class="top">
                 <div class="me"><i></i><div>あなた<small>配信中</small></div></div>
                 <span class="lv">● LIVE</span>
               </div>
-              <div class="avatar"></div>
               <div class="gift-pop"><span class="ic">🌹</span><span>rin<br>ローズを贈りました</span><span class="x">×5</span></div>
               <div class="comments">
                 <span><b>yui</b>初見です！</span>
@@ -376,10 +376,10 @@
           <p class="note phone-cap">配信画面のイメージ</p>
         </div>
         <div class="features">
-          <div class="feature reveal"><p class="big">100<small>%</small></p><h3>ギフトの報酬は、まるごとあなたに</h3><p class="body-muted">報酬はTikTokからご本人に直接支払われます。事務所の取り分はありません。配信した分が、そのままあなたの収入です。</p></div>
-          <div class="feature reveal"><p class="big">Data</p><h3>伸びる時間帯と企画を、数字で</h3><p class="body-muted">視聴者数とギフトの推移を毎回振り返り、リスナーが集まる時間帯や、ギフトが動いた企画を具体的にお伝えします。</p></div>
-          <div class="feature reveal"><p class="big">PK</p><h3>ギフトが動く配信のつくり方を学ぶ</h3><p class="body-muted">話し方、枠の組み立て方、PKの使い方をセミナーで学べます。応援したくなる配信の型を、最初から身につけられます。</p></div>
-          <div class="feature reveal"><p class="big">Cheki</p><h3>チェキ会で、ファンとの距離を縮める</h3><p class="body-muted">事務所が定期的に主催するチェキ会で、リスナーさんと直接会えます。会えたファンは、配信でもいちばんの応援団になってくれます。</p></div>
+          <div class="feature"><p class="big">100<small>%</small></p><div><h3>ギフトの報酬は、まるごとあなたに</h3><p class="body-muted">報酬はTikTokからご本人に直接支払われます。事務所の取り分はありません。配信した分が、そのままあなたの収入です。</p></div></div>
+          <div class="feature"><p class="big">Data</p><div><h3>伸びる時間帯と企画を、数字で</h3><p class="body-muted">視聴者数とギフトの推移を毎回振り返り、リスナーが集まる時間帯や、ギフトが動いた企画を具体的にお伝えします。</p></div></div>
+          <div class="feature"><p class="big">PK</p><div><h3>ギフトが動く配信のつくり方を学ぶ</h3><p class="body-muted">話し方、枠の組み立て方、PKの使い方をセミナーで学べます。応援したくなる配信の型を、最初から身につけられます。</p></div></div>
+          <div class="feature"><p class="big">Cheki</p><div><h3>チェキ会で、ファンとの距離を縮める</h3><p class="body-muted">事務所が定期的に主催するチェキ会で、リスナーさんと直接会えます。会えたファンは、配信でもいちばんの応援団になってくれます。</p></div></div>
         </div>
       </div>
       <p class="note">※報酬は配信の内容や頻度によって異なります。</p>
@@ -389,23 +389,23 @@
   <!-- HOW WE EARN -->
   <section class="how">
     <div class="wrap">
-      <p class="label reveal">How we earn</p>
-      <h2 class="headline reveal">Your growth,<br><em>our growth.</em></h2>
-      <p class="lead reveal">取り分0%で、事務所はどこで利益を出しているのか。</p>
-      <div class="flow reveal">
+      <p class="label">How we earn</p>
+      <h2 class="headline">Your growth, our growth.</h2>
+      <p class="lead">取り分0%で、事務所はどこで利益を出しているのか。</p>
+      <div class="flow">
         <div class="node"><strong>Listener</strong><span>リスナーさんが配信中にギフトを贈る</span></div>
-        <div class="arrow">→<small>ギフト</small></div>
+        <div class="arrow"><span>→</span><small>ギフト</small></div>
         <div class="node"><strong>TikTok</strong><span>ギフトを集計し、報酬を支払う</span></div>
-        <div class="arrow">→<small>報酬</small></div>
+        <div class="arrow"><span>→</span><small>報酬</small></div>
         <div class="split">
           <div class="node dark"><strong>You</strong><span>ギフトの報酬を、ご本人が直接・全額受け取る</span></div>
           <div class="node"><strong>Numatte.</strong><span>事務所への報酬を、TikTokから別枠で受け取る</span></div>
         </div>
       </div>
       <div class="cols">
-        <div class="col reveal"><h3>事務所の利益は、TikTokから</h3><p class="body-muted">TikTokには、所属ライバーの配信実績に応じて事務所に報酬を支払うしくみがあります。沼って。の利益はこの報酬です。</p></div>
-        <div class="col reveal"><h3>あなたの報酬は減りません</h3><p class="body-muted">事務所への報酬は、ライバーの報酬とは別に支払われます。あなたの取り分から差し引かれるものではありません。</p></div>
-        <div class="col reveal"><h3>だから、本気で伸ばします</h3><p class="body-muted">あなたの配信が伸びるほど、事務所の報酬も増えます。あなたが稼げるようになることが、そのまま事務所の利益になります。</p></div>
+        <div class="col"><h3>事務所の利益は、TikTokから</h3><p class="body-muted">TikTokには、所属ライバーの配信実績に応じて事務所に報酬を支払うしくみがあります。沼って。の利益はこの報酬です。</p></div>
+        <div class="col"><h3>あなたの報酬は減りません</h3><p class="body-muted">事務所への報酬は、ライバーの報酬とは別に支払われます。あなたの取り分から差し引かれるものではありません。</p></div>
+        <div class="col"><h3>だから、本気で伸ばします</h3><p class="body-muted">あなたの配信が伸びるほど、事務所の報酬も増えます。あなたが稼げるようになることが、そのまま事務所の利益になります。</p></div>
       </div>
     </div>
   </section>
@@ -413,18 +413,19 @@
   <!-- CONCERNS -->
   <section class="concerns">
     <div class="wrap concerns-grid">
-      <img class="reveal" src="assets/spotlight.jpg" alt="暗いステージを照らすスポットライト" loading="lazy">
-      <div class="reveal">
+      <div>
         <p class="label">Concerns</p>
-        <h2 class="headline">Before<br><em>the first live.</em></h2>
+        <h2 class="headline">Before the first live.</h2>
         <p class="lead">推されてみたい。でも、少し不安。</p>
+      </div>
+      <div>
         <ul class="worries">
           <li>配信で何を話せばいいのか分からない</li>
           <li>ひとりで始めて、誰も来なかったらと思うと不安</li>
           <li>事務所に入ると、費用がかかるのでは</li>
           <li>学校や仕事と両立できるか心配</li>
         </ul>
-        <p>所属ライバーのほとんどが、未経験からのスタートです。不安なことは、所属を決める前にすべてお聞きください。</p>
+        <p class="concerns-note">所属ライバーのほとんどが、未経験からのスタートです。不安なことは、所属を決める前にすべてお聞きください。</p>
       </div>
     </div>
   </section>
@@ -432,18 +433,16 @@
   <!-- LIFESTYLE -->
   <section class="lifestyle">
     <div class="wrap">
-      <p class="label reveal">Life style</p>
-      <h2 class="headline reveal">Two lives,<br><em>one stage.</em></h2>
-      <p class="lead reveal">学校も、仕事も、そのままで。</p>
+      <p class="label">Life style</p>
+      <h2 class="headline">Two lives, one stage.</h2>
+      <p class="lead">学校も、仕事も、そのままで。</p>
       <div class="styles">
-        <div class="style reveal">
-          <img src="assets/style-student.jpg" alt="暗い部屋で光るリングライト" loading="lazy">
+        <div class="style">
           <p class="label">Style 01</p>
           <h3>Student<small>大学生の場合／顔出しあり</small></h3>
           <dl><dt>09:00</dt><dd>大学の授業</dd><dt>18:00</dt><dd>アルバイト</dd><dt>22:00</dt><dd>配信（1時間半）</dd></dl>
         </div>
-        <div class="style reveal">
-          <img src="assets/style-office.jpg" alt="スタンドに立てたスマートフォン" loading="lazy">
+        <div class="style">
           <p class="label">Style 02</p>
           <h3>Office<small>会社員の場合／顔出しなし</small></h3>
           <dl><dt>09:00</dt><dd>会社で仕事</dd><dt>19:00</dt><dd>帰宅・夕食</dd><dt>21:00</dt><dd>声とイラストで配信（1時間）</dd></dl>
@@ -456,14 +455,14 @@
   <!-- SUPPORT -->
   <section class="support">
     <div class="wrap">
-      <p class="label reveal">Support</p>
-      <h2 class="headline reveal">The <em>atelier</em><br>of a liver.</h2>
-      <p class="lead reveal">推されるまでを、4つのサポートで。</p>
+      <p class="label">Support</p>
+      <h2 class="headline">The atelier of a liver.</h2>
+      <p class="lead">推されるまでを、4つのサポートで。</p>
       <ol class="support-list">
-        <li class="reveal"><span class="num">i.</span><h3>配信セミナー</h3><p class="body-muted">話し方、枠の組み立て方、PKの使い方を、オンラインのセミナーで学べます。</p></li>
-        <li class="reveal"><span class="num">ii.</span><h3>ファンづくり</h3><p class="body-muted">常連のリスナーさんができるまでの、コメントの返し方や配信の続け方を一緒に考えます。</p></li>
-        <li class="reveal"><span class="num">iii.</span><h3>データ分析</h3><p class="body-muted">視聴者数やギフトの推移を見て、伸びる時間帯や企画を具体的にお伝えします。</p></li>
-        <li class="reveal"><span class="num">iv.</span><h3>専属マネージャー</h3><p class="body-muted">おひとりに1名、担当がつきます。配信のことも、それ以外のことも、LINEでご相談いただけます。</p></li>
+        <li><span class="num">i.</span><h3>配信セミナー</h3><p class="body-muted">話し方、枠の組み立て方、PKの使い方を、オンラインのセミナーで学べます。</p></li>
+        <li><span class="num">ii.</span><h3>ファンづくり</h3><p class="body-muted">常連のリスナーさんができるまでの、コメントの返し方や配信の続け方を一緒に考えます。</p></li>
+        <li><span class="num">iii.</span><h3>データ分析</h3><p class="body-muted">視聴者数やギフトの推移を見て、伸びる時間帯や企画を具体的にお伝えします。</p></li>
+        <li><span class="num">iv.</span><h3>専属マネージャー</h3><p class="body-muted">おひとりに1名、担当がつきます。配信のことも、それ以外のことも、LINEでご相談いただけます。</p></li>
       </ol>
     </div>
   </section>
@@ -471,26 +470,24 @@
   <!-- TALENT & AMBASSADOR -->
   <section class="dark talent">
     <div class="wrap">
-      <p class="label reveal">Talent &amp; Ambassador</p>
-      <h2 class="headline reveal">The <em>face</em><br>of Numatte.</h2>
-      <p class="lead reveal">沼って。所属タレント</p>
+      <p class="label">Talent &amp; Ambassador</p>
+      <h2 class="headline">The face of Numatte.</h2>
+      <p class="lead">沼って。所属タレント</p>
 
-      <div class="talent-card">
-        <img class="photo reveal" src="assets/taishi.jpg" alt="亀谷泰史さん" loading="lazy">
-        <div class="reveal">
+      <div class="talents">
+        <div class="talent-card">
+          <img src="assets/taishi.jpg" alt="亀谷泰史さん" loading="lazy">
           <p class="label">No. 01</p>
-          <p class="talent-name">Taishi<br>Kametani</p>
+          <p class="talent-name">Taishi Kametani</p>
           <p class="talent-meta">亀谷泰史　／　TikTok @im_dyin</p>
           <div class="talent-facts">
             <div><p class="k">TikTokフォロワー</p><p class="v">6.8万</p></div>
             <div><p class="k">出演</p><p class="v jp">「今日、好きになりました。」マカオ編</p></div>
           </div>
         </div>
-      </div>
 
-      <div class="talent-card rev">
-        <img class="photo reveal" src="assets/shumpei.jpg" alt="春平さん" loading="lazy">
-        <div class="reveal">
+        <div class="talent-card">
+          <img src="assets/shumpei.jpg" alt="春平さん" loading="lazy">
           <p class="label">Ambassador</p>
           <p class="talent-name">Shumpei</p>
           <p class="talent-meta">春平　／　TikTok @shumpeiiii</p>
@@ -505,15 +502,15 @@
   <!-- CHEKI -->
   <section class="cheki">
     <div class="wrap cheki-grid">
-      <div class="reveal">
+      <div>
         <p class="label">Event</p>
-        <h2 class="headline">Cheki<br><em>meet-up.</em></h2>
+        <h2 class="headline">Cheki meet-up.</h2>
         <p class="lead">画面の向こうのリスナーと、会える日。</p>
         <p class="body-muted">沼って。では、所属ライバーのチェキ会を定期的に主催しています。配信で応援してくれるリスナーさんと直接会うことで、ファンとの距離がぐっと近くなります。</p>
       </div>
-      <div class="polaroids reveal" aria-hidden="true">
+      <div class="polaroids" aria-hidden="true">
         <figure class="polaroid a"><img src="assets/cheki-taishi.jpg" alt="" loading="lazy"><figcaption>Taishi</figcaption></figure>
-        <figure class="polaroid b"><img src="assets/cheki-next.jpg" alt="" loading="lazy"><figcaption>Next is you.</figcaption></figure>
+        <figure class="polaroid b"><div class="blank"></div><figcaption>Next is you.</figcaption></figure>
       </div>
     </div>
   </section>
@@ -521,13 +518,13 @@
   <!-- BRAND WORKS -->
   <section class="brand">
     <div class="wrap">
-      <p class="label reveal">Brand works</p>
-      <h2 class="headline reveal">Brand<br><em>works.</em></h2>
-      <p class="lead reveal">所属ライバーには、PR案件もご紹介します。</p>
-      <div class="brand-cols">
-        <div class="col reveal"><div class="top"><strong>Product</strong><span>プロモーション</span></div><h3>商品PR（動画・投稿）</h3><p class="body-muted">コスメやアパレルなどの商品を、あなたのTikTokやSNSで紹介する案件です。フォロワーや発信ジャンルに合うものを、マネージャーが選んでお渡しします。</p></div>
-        <div class="col reveal"><div class="top"><strong>Event</strong><span>出演</span></div><h3>イベント出演</h3><p class="body-muted">企業やブランドのイベントに出演する案件です。配信の外でもあなたを知ってもらえる、ファンが増えるきっかけになります。</p></div>
-        <div class="col reveal"><div class="top"><strong>Check</strong><span>#PR</span></div><h3>PR表記もマネージャーが確認</h3><p class="body-muted">PR投稿には「広告」「PR」などの表記が法律で必要です。投稿の前にマネージャーが一緒に確認するので、はじめての案件でも安心です。</p></div>
+      <p class="label">Brand works</p>
+      <h2 class="headline">Brand works.</h2>
+      <p class="lead">所属ライバーには、PR案件もご紹介します。</p>
+      <div class="brand-list">
+        <div class="brand-row"><div><strong>Product</strong><span class="tag">プロモーション</span></div><div><h3>商品PR（動画・投稿）</h3><p class="body-muted">コスメやアパレルなどの商品を、あなたのTikTokやSNSで紹介する案件です。フォロワーや発信ジャンルに合うものを、マネージャーが選んでお渡しします。</p></div></div>
+        <div class="brand-row"><div><strong>Event</strong><span class="tag">出演</span></div><div><h3>イベント出演</h3><p class="body-muted">企業やブランドのイベントに出演する案件です。配信の外でもあなたを知ってもらえる、ファンが増えるきっかけになります。</p></div></div>
+        <div class="brand-row"><div><strong>Check</strong><span class="tag">#PR</span></div><div><h3>PR表記もマネージャーが確認</h3><p class="body-muted">PR投稿には「広告」「PR」などの表記が法律で必要です。投稿の前にマネージャーが一緒に確認するので、はじめての案件でも安心です。</p></div></div>
       </div>
       <p class="note">※案件の内容・報酬・時期は、案件ごとに異なります。</p>
     </div>
@@ -536,30 +533,30 @@
   <!-- FEE -->
   <section class="fee-sec">
     <div class="wrap">
-      <p class="label reveal">Fee</p>
-      <h2 class="headline reveal">Zero,<br><em>simply.</em></h2>
-      <p class="lead reveal">かかる費用は、ありません。</p>
-      <div class="fees reveal">
+      <p class="label">Fee</p>
+      <h2 class="headline">Zero, simply.</h2>
+      <p class="lead">かかる費用は、ありません。</p>
+      <div class="fees">
         <div class="fee"><p class="k">登録料</p><p class="v">0<small>円</small></p></div>
         <div class="fee"><p class="k">所属費</p><p class="v">0<small>円</small></p></div>
         <div class="fee"><p class="k">サポート費</p><p class="v">0<small>円</small></p></div>
         <div class="fee"><p class="k">事務所手数料</p><p class="v">0<small>円</small></p></div>
       </div>
-      <p class="note fee-note">事務所はTikTokから支払われる報酬で運営しています。ライバーの報酬はTikTokからご本人に直接支払われ、事務所が差し引くことはありません。所属期間の定めや違約金もありません。</p>
+      <p class="fee-note">事務所はTikTokから支払われる報酬で運営しています。ライバーの報酬はTikTokからご本人に直接支払われ、事務所が差し引くことはありません。所属期間の定めや違約金もありません。</p>
     </div>
   </section>
 
   <!-- FLOW -->
   <section class="flow-sec">
     <div class="wrap">
-      <p class="label reveal">Flow</p>
-      <h2 class="headline reveal">From LINE<br><em>to your debut.</em></h2>
-      <p class="lead reveal">最短1週間で、はじめての配信へ。</p>
+      <p class="label">Flow</p>
+      <h2 class="headline">From LINE to your debut.</h2>
+      <p class="lead">最短1週間で、はじめての配信へ。</p>
       <div class="steps">
-        <div class="step reveal"><p class="n">01</p><h3>LINEで申し込む</h3><p class="body-muted">友だち追加のうえ、「相談したい」とお送りください。</p></div>
-        <div class="step reveal"><p class="n">02</p><h3>オンライン相談</h3><p class="body-muted">15〜30分。なさりたい配信や生活スタイルを伺い、条件をご説明します。</p></div>
-        <div class="step reveal"><p class="n">03</p><h3>所属の手続き</h3><p class="body-muted">TikTokアプリに届く事務所からの招待を承認すれば、所属完了です。</p></div>
-        <div class="step reveal"><p class="n">04</p><h3>デビュー</h3><p class="body-muted">マネージャーが見守りながら、最初の配信をご一緒します。</p></div>
+        <div class="step"><p class="n">01</p><h3>LINEで申し込む</h3><p class="body-muted">友だち追加のうえ、「相談したい」とお送りください。</p></div>
+        <div class="step"><p class="n">02</p><h3>オンライン相談</h3><p class="body-muted">15〜30分。なさりたい配信や生活スタイルを伺い、条件をご説明します。</p></div>
+        <div class="step"><p class="n">03</p><h3>所属の手続き</h3><p class="body-muted">TikTokアプリに届く事務所からの招待を承認すれば、所属完了です。</p></div>
+        <div class="step"><p class="n">04</p><h3>デビュー</h3><p class="body-muted">マネージャーが見守りながら、最初の配信をご一緒します。</p></div>
       </div>
     </div>
   </section>
@@ -567,12 +564,12 @@
   <!-- PROMISE -->
   <section class="promise">
     <div class="wrap">
-      <p class="label reveal">Our promise</p>
-      <h2 class="headline reveal">Our <em>promise.</em></h2>
+      <p class="label">Our promise</p>
+      <h2 class="headline">Our promise.</h2>
       <div class="cols">
-        <div class="col reveal"><h3>報酬を差し引きません</h3><p class="body-muted">ギフトの報酬はTikTokからご本人に直接支払われます。事務所が取り分を引くことはありません。</p></div>
-        <div class="col reveal"><h3>所属を急かしません</h3><p class="body-muted">ご相談のあとにお断りいただいて構いません。こちらから何度もご連絡することはありません。</p></div>
-        <div class="col reveal"><h3>やめるのも自由です</h3><p class="body-muted">所属期間の定めや違約金はありません。マネージャーに連絡すれば、いつでも外れられます。</p></div>
+        <div class="col"><h3>報酬を差し引きません</h3><p class="body-muted">ギフトの報酬はTikTokからご本人に直接支払われます。事務所が取り分を引くことはありません。</p></div>
+        <div class="col"><h3>所属を急かしません</h3><p class="body-muted">ご相談のあとにお断りいただいて構いません。こちらから何度もご連絡することはありません。</p></div>
+        <div class="col"><h3>やめるのも自由です</h3><p class="body-muted">所属期間の定めや違約金はありません。マネージャーに連絡すれば、いつでも外れられます。</p></div>
       </div>
     </div>
   </section>
@@ -580,9 +577,9 @@
   <!-- FAQ -->
   <section class="faq">
     <div class="wrap">
-      <p class="label reveal">FAQ</p>
-      <h2 class="headline reveal"><em>Questions.</em></h2>
-      <div class="faq-list reveal">
+      <p class="label">FAQ</p>
+      <h2 class="headline">Questions.</h2>
+      <div class="faq-list">
         <details><summary>配信未経験でも大丈夫ですか？</summary><p class="a body-muted">大丈夫です。所属ライバーのほとんどが、未経験からのスタートです。話し方や枠の組み立て方は配信セミナーで学べて、最初の配信はマネージャーが見守りながらご一緒します。</p></details>
         <details><summary>スマホだけで配信できますか？</summary><p class="a body-muted">できます。配信に必要なのは、スマホ1台だけです。</p></details>
         <details><summary>学生でも所属できますか？</summary><p class="a body-muted">18歳以上の方であれば、学生さんでも所属できます。授業やアルバイトと両立しながら配信できます。</p></details>
@@ -597,16 +594,16 @@
   <!-- ENTRY -->
   <section class="dark entry" id="entry">
     <div class="wrap">
-      <p class="label reveal">Entry</p>
-      <h2 class="headline reveal">Your stage<br><em>begins tonight.</em></h2>
-      <p class="body-muted reveal">LINEで「相談したい」とお送りください。担当マネージャーより24時間以内にご連絡いたします。お話を聞くだけでも、どうぞお気軽に。</p>
-      <div class="keywords reveal">
+      <p class="label">Entry</p>
+      <h2 class="headline">Your stage begins tonight.</h2>
+      <p class="body-muted">LINEで「相談したい」とお送りください。担当マネージャーより24時間以内にご連絡いたします。お話を聞くだけでも、どうぞお気軽に。</p>
+      <div class="keywords">
         LINEに登録したら、知りたい方のキーワードを送ってください。<br>
         <b>「ライブ」</b>TikTok LIVEの所属について<br>
         <b>「案件」</b>PR案件について
       </div>
-      <div class="reveal"><a class="btn light" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a></div>
-      <p class="note reveal">LINE ID　<a href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">@621oaeig</a>　／　18歳以上の方が対象です</p>
+      <div><a class="btn" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a></div>
+      <p class="note">LINE ID　<a href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">@621oaeig</a>　／　18歳以上の方が対象です</p>
     </div>
   </section>
 </main>
@@ -620,12 +617,6 @@
 <a class="sticky-cta" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a>
 
 <script>
-  // スクロールで少しずつ表示
-  const io = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
-    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
-  }, { rootMargin: "0px 0px -8% 0px" }) : null;
-  document.querySelectorAll(".reveal").forEach((el) => io ? io.observe(el) : el.classList.add("in"));
-
   // スマホの固定ボタンは、ヒーローとENTRYが見えている間は隠す
   const cta = document.querySelector(".sticky-cta");
   const hidden = new Set();
