@@ -51,10 +51,6 @@
          letter-spacing: .2em; padding: 20px 46px; transition: opacity .2s, transform .2s; }
   .btn:hover { opacity: .85; transform: translateY(-1px); }
   .btn.light { background: #fff; color: var(--ink); }
-  /* LINE公式アカウントができるまでの「準備中」ボタン */
-  .btn.pending { background: transparent; color: var(--ink); border: 1px solid currentColor; opacity: .55; cursor: default; }
-  .btn.pending:hover { opacity: .55; transform: none; }
-  .btn.light.pending { color: #fff; }
   .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
   .reveal.in { opacity: 1; transform: none; }
   @media (prefers-reduced-motion: reduce) {
@@ -342,8 +338,7 @@
       <p class="intro reveal">沼って。は、TikTok LIVEで配信する<br>ライバーのマネジメント事務所です。<br>所属ライバーには、企業のPR案件もご紹介しています。</p>
       <p class="catch reveal">あなたに沼る人が、<br>あなたの収入になる。</p>
       <p class="body-muted reveal">TikTok LIVEで届いたギフトの報酬は、TikTokからあなたに直接支払われます。事務所は1円も差し引きません。未経験から「稼げるライバー」になるまで、専属マネージャーがひとりずつ伴走します。</p>
-      <!-- LINE準備中：公式アカウントができたら <a class="btn reveal" href="友だち追加URL" target="_blank" rel="noopener">LINEで相談する</a> に戻す -->
-      <span class="btn pending reveal" aria-disabled="true">LINE相談は準備中です</span>
+      <a class="btn reveal" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a>
       <p class="note reveal">相談は15〜30分　／　18歳以上の方が対象です</p>
       <div class="stats reveal">
         <div class="stat"><p class="k">報酬からの事務所の取り分</p><p class="v">0<small>%</small></p></div>
@@ -610,9 +605,8 @@
         <b>「ライブ」</b>TikTok LIVEの所属について<br>
         <b>「案件」</b>PR案件について
       </div>
-      <!-- LINE準備中：公式アカウントができたら、ボタンを <a class="btn light" href="友だち追加URL" ...>LINEで相談する</a> に、下の行を「LINE ID　@〇〇」に戻す -->
-      <div class="reveal"><span class="btn light pending" aria-disabled="true">LINE相談は準備中です</span></div>
-      <p class="note reveal">LINE公式アカウントは、まもなく開設します　／　18歳以上の方が対象です</p>
+      <div class="reveal"><a class="btn light" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a></div>
+      <p class="note reveal">LINE ID　<a href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">@621oaeig</a>　／　18歳以上の方が対象です</p>
     </div>
   </section>
 </main>
@@ -623,9 +617,7 @@
   <span>TikTokはByteDance社の商標です。本ページはTikTok公式のものではありません。</span>
 </footer>
 
-<!-- LINE準備中：公式アカウントができたら、スマホ下の固定ボタンを戻す
-<a class="sticky-cta" href="友だち追加URL" target="_blank" rel="noopener">LINEで相談する</a>
--->
+<a class="sticky-cta" href="https://lin.ee/OBHQoTF" target="_blank" rel="noopener">LINEで相談する</a>
 
 <script>
   // スクロールで少しずつ表示
